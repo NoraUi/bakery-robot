@@ -1,0 +1,6 @@
+.settings/
+downloadFiles/
+target/
+.classpath
+.project
+.iml
