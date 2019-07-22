@@ -15,7 +15,7 @@ before_script:
 - chmod +x ci/run.sh
 
 script:
-- test/run.sh
+- ci/run.sh
 
 cache:
   directories:
