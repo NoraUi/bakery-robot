@@ -1,7 +1,19 @@
 {
-  "name":"logogame",
-  "url":"https://noraui.github.io/demo/logogame/v3/",
-  "models":[
-    {"name":"logo"}
+  "name": "logogame",
+  "url": "https://noraui.github.io/demo/logogame/v3/",
+  "models": [
+    {
+      "name": "logo",
+      "fields": [
+        {
+          "name": "brand"
+        }
+      ],
+      "results": [
+        {
+          "name": "score"
+        }
+      ]
+    }
   ]
 }

@@ -9,8 +9,8 @@
  */
 package com.github.bakery.robot.application.pages.bakery;
 
-import static com.github.noraui.utils.Context.BAKERY_HOME;
 import static com.github.noraui.utils.Context.BAKERY_KEY;
+import static com.github.noraui.utils.Context.BAKERY_REF;
 
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
@@ -20,26 +20,21 @@ import com.github.noraui.application.page.Page;
 import com.github.noraui.exception.Callbacks;
 import com.github.noraui.utils.Context;
 import com.github.noraui.utils.Utilities;
-import com.google.inject.Singleton;
 
-@Singleton
-public class BakeryPage extends Page {
+public class ReferencerPage extends Page {
 
     /**
      * Specific logger
      */
-    protected static final Logger logger = LoggerFactory.getLogger(BakeryPage.class);
+    protected static final Logger logger = LoggerFactory.getLogger(ReferencerPage.class);
 
-    public final PageElement login = new PageElement("-login_field", "Login");
-    public final PageElement loginTitle = new PageElement("-login_title", "Login title");
-    public final PageElement password = new PageElement("-password_field", "Password");
-    public final PageElement signInButton = new PageElement("-sign_in_button", "Sign-in button");
-    public final PageElement signOutMessage = new PageElement("-sign_out_message");
+    public final PageElement titleMessage = new PageElement("-title_message");
+    public final PageElement signOutMenu = new PageElement("-signout_menu");
 
-    public BakeryPage() {
+    public ReferencerPage() {
         super();
         this.application = BAKERY_KEY;
-        this.pageKey = BAKERY_HOME;
+        this.pageKey = BAKERY_REF;
         this.callBack = Context.getCallBack(Callbacks.CLOSE_WINDOW_AND_SWITCH_TO_BAKERY_HOME);
     }
 
@@ -49,10 +44,10 @@ public class BakeryPage extends Page {
     @Override
     public boolean checkPage(Object... elements) {
         try {
-            Context.waitUntil(ExpectedConditions.visibilityOfElementLocated(Utilities.getLocator(loginTitle)));
+            Context.waitUntil(ExpectedConditions.visibilityOfElementLocated(Utilities.getLocator(titleMessage)));
             return true;
         } catch (Exception e) {
-            logger.error("login title not found", e);
+            logger.error("signIn message not found", e);
             return false;
         }
     }
