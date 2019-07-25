@@ -1,8 +1,10 @@
 /**
  * BakeryRobot generated free by NoraUi Organization https://github.com/NoraUi
  * BakeryRobot is licensed under the license BSD.
- * 
  * CAUTION: BakeryRobot use NoraUi library. This project is licensed under the license GNU AFFERO GENERAL PUBLIC LICENSE
+ * 
+ * @author Nicolas HALLOUIN
+ * @author Stéphane GRILLON
  */
 package com.github.bakery.robot.application.steps.bakery;
 
@@ -16,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import com.github.bakery.robot.application.pages.bakery.AdminPage;
 import com.github.bakery.robot.application.pages.bakery.BakeryPage;
 import com.github.bakery.robot.application.pages.bakery.ReferencerPage;
+import com.github.bakery.robot.utils.BakeryRobotMessages;
 import com.github.noraui.application.steps.Step;
 import com.github.noraui.browser.Auth;
 import com.github.noraui.cucumber.annotation.Conditioned;
@@ -36,16 +39,16 @@ import cucumber.api.java.fr.Quand;
 public class BakerySteps extends Step {
 
     /**
-     * Specific logger
+     * Specific LOGGER
      */
-    private static final Logger logger = LoggerFactory.getLogger(BakerySteps.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BakerySteps.class);
 
     @Inject
     private BakeryPage bakeryPage;
 
     @Inject
     private AdminPage adminPage;
-    
+
     @Inject
     private ReferencerPage referencerPage;
 
@@ -76,6 +79,7 @@ public class BakerySteps extends Step {
     @Alors("Je me connect sur BAKERY avec {string} {string}")
     @Then("I log in to BAKERY as {string} {string}")
     public void logInToBakery(String login, String password) throws FailureException {
+        LOGGER.debug("logIn to ${targetApplicationName} with login [{}] and password [{}].");
         try {
             Context.waitUntil(ExpectedConditions.presenceOfElementLocated(Utilities.getLocator(bakeryPage.signInButton)));
             Utilities.findElement(bakeryPage.login).sendKeys(login);
@@ -86,6 +90,11 @@ public class BakerySteps extends Step {
         }
     }
 
+    /**
+     * @param conditions list of 'expected' values condition and 'actual' values ({@link com.github.noraui.gherkin.GherkinStepCondition}).
+     * @throws FailureException
+     *             if the scenario encounters a functional error.
+     */
     @Conditioned
     @Alors("La partie administrateur du portail BAKERY est affichée(\\?)")
     @Then("The administrator part of the BAKERY portal is displayed(\\?)")
@@ -104,6 +113,11 @@ public class BakerySteps extends Step {
         Auth.setConnected(true);
     }
 
+    /**
+     * @param conditions list of 'expected' values condition and 'actual' values ({@link com.github.noraui.gherkin.GherkinStepCondition}).
+     * @throws FailureException
+     *             if the scenario encounters a functional error.
+     */
     @Conditioned
     @Alors("La partie referenceur du portail BAKERY est affichée(\\?)")
     @Then("The referencer part of the BAKERY portal is displayed(\\?)")
@@ -121,7 +135,7 @@ public class BakerySteps extends Step {
         }
         Auth.setConnected(true);
     }
-    
+
     /**
      * Logout of Bakery.
      * 
@@ -139,9 +153,8 @@ public class BakerySteps extends Step {
             WebElement outMenu = Context.waitUntil(ExpectedConditions.presenceOfElementLocated(Utilities.getLocator(this.adminPage.signOutMenu)));
             outMenu.click();
         } else {
-            // TODO
-            //Context.getCurrentScenario().write(Messages.getMessage("..."));
-            Context.getCurrentScenario().write("not connected");
+            LOGGER.warn(Messages.getMessage(BakeryRobotMessages.USER_WAS_ALREADY_LOGOUT, "robot"));
+            Context.getCurrentScenario().write(Messages.getMessage(BakeryRobotMessages.USER_WAS_ALREADY_LOGOUT, "robot"));
         }
     }
 
@@ -149,6 +162,7 @@ public class BakerySteps extends Step {
      * Check Logout page.
      * 
      * @throws FailureException
+     *             if the scenario encounters a functional error.
      */
     @Alors("La page de déconnexion de BAKERY est affichée")
     @Then("The BAKERY logout page is displayed")

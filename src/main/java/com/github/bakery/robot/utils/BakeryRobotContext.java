@@ -1,8 +1,10 @@
 /**
  * BakeryRobot generated free by NoraUi Organization https://github.com/NoraUi
  * BakeryRobot is licensed under the license BSD.
- * 
  * CAUTION: BakeryRobot use NoraUi library. This project is licensed under the license GNU AFFERO GENERAL PUBLIC LICENSE
+ * 
+ * @author Nicolas HALLOUIN
+ * @author Stéphane GRILLON
  */
 package com.github.bakery.robot.utils;
 
@@ -18,9 +20,9 @@ import com.github.noraui.utils.Messages;
 public class BakeryRobotContext extends Context {
 
     /**
-     * Specific logger
+     * Specific LOGGER
      */
-    private static final Logger logger = LoggerFactory.getLogger(BakeryRobotContext.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BakeryRobotContext.class);
 
     // applications
     public static final String BAKERY_KEY = "bakery";
@@ -57,10 +59,10 @@ public class BakeryRobotContext extends Context {
     @Override
     public synchronized void initializeRobot(Class clazz) throws TechnicalException {
         super.initializeRobot(clazz);
-        logger.info("BakeryRobotContext > initializeRobot()");
+        LOGGER.info("BakeryRobotContext > initializeRobot()");
         
         // This line is here as an example to show how to do with internationalization using messages bundles.
-        logger.info(Messages.format(Messages.getMessage("HELLO", "robot"), "robot"));
+        LOGGER.info(Messages.format(Messages.getMessage(BakeryRobotMessages.HELLO, "robot"), "robot"));
 
         // Urls configuration
         bakeryHome = getProperty(BAKERY_KEY, applicationProperties);

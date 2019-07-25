@@ -1,8 +1,7 @@
 /**
  * BakeryRobot generated free by NoraUi Organization https://github.com/NoraUi
  * BakeryRobot is licensed under the license BSD.
- * 
- * CAUTION: BakeryRobot use NoraUi library. This project is licensed under the license GNU AFFERO GENERAL PUBLIC LICENSE 
+ * CAUTION: BakeryRobot use NoraUi library. This project is licensed under the license GNU AFFERO GENERAL PUBLIC LICENSE
  * 
  * @author Nicolas HALLOUIN
  * @author Stéphane GRILLON
@@ -26,9 +25,9 @@ import com.google.inject.Singleton;
 public class BakeryPage extends Page {
 
     /**
-     * Specific logger
+     * Specific LOGGER
      */
-    protected static final Logger logger = LoggerFactory.getLogger(BakeryPage.class);
+    protected static final Logger LOGGER = LoggerFactory.getLogger(BakeryPage.class);
 
     public final PageElement login = new PageElement("-login_field", "Login");
     public final PageElement loginTitle = new PageElement("-login_title", "Login title");
@@ -52,7 +51,7 @@ public class BakeryPage extends Page {
             Context.waitUntil(ExpectedConditions.visibilityOfElementLocated(Utilities.getLocator(loginTitle)));
             return true;
         } catch (Exception e) {
-            logger.error("login title not found", e);
+            LOGGER.error("login title not found", e);
             return false;
         }
     }
