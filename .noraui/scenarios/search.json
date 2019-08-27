@@ -1,1 +1,6 @@
-{"name":"search","description":"desc","application":"google"}
+{
+  "name": "search",
+  "description": "desc",
+  "application": "google",
+  "status": true
+}

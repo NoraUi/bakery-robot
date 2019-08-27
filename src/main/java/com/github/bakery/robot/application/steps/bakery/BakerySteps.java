@@ -79,7 +79,7 @@ public class BakerySteps extends Step {
     @Alors("Je me connect sur BAKERY avec {string} {string}")
     @Then("I log in to BAKERY as {string} {string}")
     public void logInToBakery(String login, String password) throws FailureException {
-        LOGGER.debug("logIn to ${targetApplicationName} with login [{}] and password [{}].");
+        LOGGER.debug("logIn to Bakery with login [{}] and password [{}].", login, password);
         try {
             Context.waitUntil(ExpectedConditions.presenceOfElementLocated(Utilities.getLocator(bakeryPage.signInButton)));
             Utilities.findElement(bakeryPage.login).sendKeys(login);

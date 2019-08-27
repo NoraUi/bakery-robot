@@ -1,5 +1,6 @@
 {
   "name": "loginLogout",
   "description": "Scenario that login and logout with any good user.",
-  "application": "bakery"
+  "application": "bakery",
+  "status": true
 }
