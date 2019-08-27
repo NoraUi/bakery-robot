@@ -27,12 +27,12 @@ import com.github.bakery.robot.application.model.logogame.Logo;
 import com.github.bakery.robot.application.model.logogame.Logos;
 import com.github.bakery.robot.application.pages.logogame.LogogamePage;
 
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.fr.Alors;
-import cucumber.api.java.fr.Et;
-import cucumber.api.java.fr.Lorsque;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.fr.Alors;
+import io.cucumber.java.fr.Et;
+import io.cucumber.java.fr.Lorsque;
 import cucumber.metrics.annotation.time.Time;
 import cucumber.metrics.annotation.time.TimeValue;
 
@@ -108,11 +108,12 @@ public class LogogameSteps extends Step {
     @Lorsque("Je vérifie que toutes les marques {string} ne sont pas interdites")
     @Given("I check that all brands {string} are not prohibited")
     public void checkThatAllBrandsIsNotProhibited(String jsonLogos) throws TechnicalException, FailureException {
+        ProhibitedBrands prohibitedBrands = new ProhibitedBrands();
         Logos logos = new Logos();
         logos.deserialize(jsonLogos);
         for (int i = 0; i < logos.size(); i++) {
-            if (ProhibitedBrands.getAlcool().contains(logos.get(i).getBrand())
-                    || ProhibitedBrands.getTabaco().contains(logos.get(i).getBrand())) {
+            if (prohibitedBrands.getAlcool().contains(logos.get(i).getBrand())
+                    || prohibitedBrands.getTabaco().contains(logos.get(i).getBrand())) {
                 new Result.Failure<>(logos.get(i).getBrand(),
                         Messages.format("Brand « %s » is prohibited.", logos.get(i).getBrand()), false,
                         logos.get(i).getNid(),
