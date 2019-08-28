@@ -10,7 +10,6 @@ package com.github.bakery.robot.application.steps.bakery;
 
 import java.util.List;
 
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,7 +59,7 @@ public class BakerySteps extends Step {
      */
     @Alors("La page d'accueil BAKERY est affichée")
     @Then("The BAKERY home page is displayed")
-    public void checkBakeryLoginPage() throws FailureException {
+    public void checkBakeryHomePage() throws FailureException {
         if (!bakeryPage.checkPage()) {
             new Result.Failure<>(bakeryPage.getApplication(), Messages.getMessage(Messages.FAIL_MESSAGE_HOME_PAGE_NOT_FOUND), true, bakeryPage.getCallBack());
         }
@@ -76,7 +75,7 @@ public class BakerySteps extends Step {
      * @throws FailureException
      *             if the scenario encounters a functional error.
      */
-    @Alors("Je me connect sur BAKERY avec {string} {string}")
+    @Alors("Je me connecte sur BAKERY avec {string} {string}")
     @Then("I log in to BAKERY as {string} {string}")
     public void logInToBakery(String login, String password) throws FailureException {
         LOGGER.debug("logIn to Bakery with login [{}] and password [{}].", login, password);
@@ -91,7 +90,8 @@ public class BakerySteps extends Step {
     }
 
     /**
-     * @param conditions list of 'expected' values condition and 'actual' values ({@link com.github.noraui.gherkin.GherkinStepCondition}).
+     * @param conditions
+     *            list of 'expected' values condition and 'actual' values ({@link com.github.noraui.gherkin.GherkinStepCondition}).
      * @throws FailureException
      *             if the scenario encounters a functional error.
      */
@@ -114,7 +114,8 @@ public class BakerySteps extends Step {
     }
 
     /**
-     * @param conditions list of 'expected' values condition and 'actual' values ({@link com.github.noraui.gherkin.GherkinStepCondition}).
+     * @param conditions
+     *            list of 'expected' values condition and 'actual' values ({@link com.github.noraui.gherkin.GherkinStepCondition}).
      * @throws FailureException
      *             if the scenario encounters a functional error.
      */
@@ -149,9 +150,12 @@ public class BakerySteps extends Step {
     public void logOut() throws FailureException, TechnicalException {
         if (Auth.isConnected()) {
             getDriver().switchTo().defaultContent();
-            clickOn(adminPage.accountMenu);
-            WebElement outMenu = Context.waitUntil(ExpectedConditions.presenceOfElementLocated(Utilities.getLocator(this.adminPage.signOutMenu)));
-            outMenu.click();
+            try {
+                clickOn(adminPage.accountMenu);
+                Context.waitUntil(ExpectedConditions.presenceOfElementLocated(Utilities.getLocator(this.adminPage.signOutMenu))).click();
+            } catch (Exception e) {
+                new Result.Failure<>(adminPage.getApplication(), Messages.getMessage(Messages.FAIL_MESSAGE_LOGOUT), true, adminPage.getCallBack());
+            }
         } else {
             LOGGER.warn(Messages.getMessage(BakeryRobotMessages.USER_WAS_ALREADY_LOGOUT, "robot"));
             Context.getCurrentScenario().write(Messages.getMessage(BakeryRobotMessages.USER_WAS_ALREADY_LOGOUT, "robot"));

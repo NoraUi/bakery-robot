@@ -8,6 +8,9 @@
  */
 package com.github.bakery.robot.utils;
 
+import static com.github.noraui.browser.steps.BrowserSteps.CLOSE_ALL_WINDOWS_AND_SWITCH_TO;
+import static com.github.noraui.browser.steps.BrowserSteps.CLOSE_WINDOW_AND_SWITCH_TO;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,10 +60,10 @@ public class BakeryRobotContext extends Context {
      * {@inheritDoc}
      */
     @Override
-    public synchronized void initializeRobot(Class clazz) throws TechnicalException {
+    public synchronized void initializeRobot(Class<?> clazz) throws TechnicalException {
         super.initializeRobot(clazz);
         LOGGER.info("BakeryRobotContext > initializeRobot()");
-        
+
         // This line is here as an example to show how to do with internationalization using messages bundles.
         LOGGER.info(Messages.format(Messages.getMessage(BakeryRobotMessages.HELLO, "robot"), "robot"));
 
@@ -73,17 +76,17 @@ public class BakeryRobotContext extends Context {
         initApplicationDom(clazz.getClassLoader(), selectorsVersion, BAKERY_KEY);
         initApplicationDom(clazz.getClassLoader(), selectorsVersion, GOOGLE_KEY);
         initApplicationDom(clazz.getClassLoader(), selectorsVersion, LOGOGAME_KEY);
- 
+
         // Exception Callbacks
         exceptionCallbacks.put(GO_TO_BAKERY_HOME, STEPS_BROWSER_STEPS_CLASS_QUALIFIED_NAME, GO_TO_URL_METHOD_NAME, BAKERY_HOME);
-        exceptionCallbacks.put(CLOSE_WINDOW_AND_SWITCH_TO_BAKERY_HOME, STEPS_BROWSER_STEPS_CLASS_QUALIFIED_NAME, "closeWindowAndSwitchTo", BAKERY_KEY, BAKERY_HOME);
-        exceptionCallbacks.put(CLOSE_ALL_WINDOWS_AND_SWITCH_TO_BAKERY_HOME, STEPS_BROWSER_STEPS_CLASS_QUALIFIED_NAME, "closeAllWindowsAndSwitchTo", BAKERY_KEY);
+        exceptionCallbacks.put(CLOSE_WINDOW_AND_SWITCH_TO_BAKERY_HOME, STEPS_BROWSER_STEPS_CLASS_QUALIFIED_NAME, CLOSE_WINDOW_AND_SWITCH_TO, BAKERY_KEY, BAKERY_HOME);
+        exceptionCallbacks.put(CLOSE_ALL_WINDOWS_AND_SWITCH_TO_BAKERY_HOME, STEPS_BROWSER_STEPS_CLASS_QUALIFIED_NAME, CLOSE_ALL_WINDOWS_AND_SWITCH_TO, BAKERY_KEY);
         exceptionCallbacks.put(GO_TO_GOOGLE_HOME, STEPS_BROWSER_STEPS_CLASS_QUALIFIED_NAME, GO_TO_URL_METHOD_NAME, GOOGLE_HOME);
-        exceptionCallbacks.put(CLOSE_WINDOW_AND_SWITCH_TO_GOOGLE_HOME, STEPS_BROWSER_STEPS_CLASS_QUALIFIED_NAME, "closeWindowAndSwitchTo", GOOGLE_KEY, GOOGLE_HOME);
-        exceptionCallbacks.put(CLOSE_ALL_WINDOWS_AND_SWITCH_TO_GOOGLE_HOME, STEPS_BROWSER_STEPS_CLASS_QUALIFIED_NAME, "closeAllWindowsAndSwitchTo", GOOGLE_KEY);
+        exceptionCallbacks.put(CLOSE_WINDOW_AND_SWITCH_TO_GOOGLE_HOME, STEPS_BROWSER_STEPS_CLASS_QUALIFIED_NAME, CLOSE_WINDOW_AND_SWITCH_TO, GOOGLE_KEY, GOOGLE_HOME);
+        exceptionCallbacks.put(CLOSE_ALL_WINDOWS_AND_SWITCH_TO_GOOGLE_HOME, STEPS_BROWSER_STEPS_CLASS_QUALIFIED_NAME, CLOSE_ALL_WINDOWS_AND_SWITCH_TO, GOOGLE_KEY);
         exceptionCallbacks.put(GO_TO_LOGOGAME_HOME, STEPS_BROWSER_STEPS_CLASS_QUALIFIED_NAME, GO_TO_URL_METHOD_NAME, LOGOGAME_HOME);
-        exceptionCallbacks.put(CLOSE_WINDOW_AND_SWITCH_TO_LOGOGAME_HOME, STEPS_BROWSER_STEPS_CLASS_QUALIFIED_NAME, "closeWindowAndSwitchTo", LOGOGAME_KEY, LOGOGAME_HOME);
-        exceptionCallbacks.put(CLOSE_ALL_WINDOWS_AND_SWITCH_TO_LOGOGAME_HOME, STEPS_BROWSER_STEPS_CLASS_QUALIFIED_NAME, "closeAllWindowsAndSwitchTo", LOGOGAME_KEY);
+        exceptionCallbacks.put(CLOSE_WINDOW_AND_SWITCH_TO_LOGOGAME_HOME, STEPS_BROWSER_STEPS_CLASS_QUALIFIED_NAME, CLOSE_WINDOW_AND_SWITCH_TO, LOGOGAME_KEY, LOGOGAME_HOME);
+        exceptionCallbacks.put(CLOSE_ALL_WINDOWS_AND_SWITCH_TO_LOGOGAME_HOME, STEPS_BROWSER_STEPS_CLASS_QUALIFIED_NAME, CLOSE_ALL_WINDOWS_AND_SWITCH_TO, LOGOGAME_KEY);
 
         // applications mapping
         applications.put(BAKERY_KEY, new Application(BAKERY_HOME, bakeryHome));
@@ -92,14 +95,14 @@ public class BakeryRobotContext extends Context {
 
         Page.setPageMainPackage("com.github.bakery.robot.application.pages.");
     }
-    
+
     /**
      * Get context singleton.
      *
      * @return context instance
      */
     public static Context getInstance() {
-        if (instance == null || !(instance instanceof BakeryRobotContext)) {
+        if (!(instance instanceof BakeryRobotContext)) {
             instance = new BakeryRobotContext();
         }
         return instance;
@@ -109,9 +112,11 @@ public class BakeryRobotContext extends Context {
     public String getBakeryHome() {
         return bakeryHome;
     }
+
     public String getGoogleHome() {
         return googleHome;
     }
+
     public String getLogogameHome() {
         return logogameHome;
     }

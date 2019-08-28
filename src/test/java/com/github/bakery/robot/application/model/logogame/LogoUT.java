@@ -6,7 +6,7 @@
  * @author Nicolas HALLOUIN
  * @author Stéphane GRILLON
  */
-package com.github.bakery.robot.model.logogame;
+package com.github.bakery.robot.application.model.logogame;
 
 import java.util.Collections;
 
@@ -28,6 +28,18 @@ public class LogoUT {
         // run test
         Assert.assertEquals("{\"brand\":\"amazon\"}", logo.serialize());
     }
+    
+    @Test
+    public void checkLogoSerializeAllTest() {
+        // prepare mock
+        Logo logo = new Logo();
+        logo.setNid(123);
+        logo.setBrand("amazon");
+        logo.setScore("456");
+
+        // run test
+        Assert.assertEquals("{\"brand\":\"amazon\"}", logo.serialize());
+    }
 
     @Test
     public void checkLogoDeserializeTest() {
@@ -35,6 +47,16 @@ public class LogoUT {
         Logo logo = new Logo();
         logo.deserialize("{\"brand\":\"amazon\"}");
         Assert.assertEquals("amazon", logo.getBrand());
+    }
+    
+    @Test
+    public void checkLogoDeserializeAllTest() {
+        // run test
+        Logo logo = new Logo();
+        logo.deserialize("{nid:123, brand:\"amazon\", score:\"456\"}");
+        Assert.assertEquals(new Integer(-1), logo.getNid());
+        Assert.assertEquals("amazon", logo.getBrand());
+        Assert.assertEquals("", logo.getScore());
     }
 
     @Test
