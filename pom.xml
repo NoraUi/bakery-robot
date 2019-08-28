@@ -20,9 +20,20 @@
         <maven-resources-plugin.version>3.0.2</maven-resources-plugin.version>
         <exec-maven-plugin.version>1.6.0</exec-maven-plugin.version>
         <maven-surefire-plugin.version>2.20.1</maven-surefire-plugin.version>
-        <sonar-maven-plugin.version>3.3.0.603</sonar-maven-plugin.version>
+<!--         <sonar-maven-plugin.version>3.3.0.603</sonar-maven-plugin.version> -->
         <maven-javadoc-plugin.version>3.0.0-M1</maven-javadoc-plugin.version>
         <jacoco-maven-plugin.version>0.7.9</jacoco-maven-plugin.version>
+        
+        <sonar-maven-plugin.version>3.3.0.603</sonar-maven-plugin.version>
+        <project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
+        <sonar.sources>${project.basedir}/src/main/java/</sonar.sources>
+        <sonar.junit.reportPaths>${project.build.directory}/surefire-reports/junit</sonar.junit.reportPaths>
+        <sonar.surefire.reportPaths>${project.build.directory}/surefire-reports</sonar.surefire.reportPaths>
+        <sonar.jacoco.reportPaths>${project.testresult.directory}/coverage/jacoco/jacoco.exec</sonar.jacoco.reportPaths>
+        <sonar.tests>${project.basedir}/src/test/</sonar.tests>
+        <sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
+        <sonar.exclusions></sonar.exclusions>
+        
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <env>dev</env>
     </properties>
@@ -129,27 +140,6 @@
     </build>
 
     <profiles>
-        <profile>
-            <id>analyze</id>
-            <properties>
-                <sonar.host.url>http://172.0.0.1:9000</sonar.host.url>
-                <sonar.sources>${project.basedir}/src/main/java</sonar.sources>
-                <sonar.scm.provider>git</sonar.scm.provider>
-                <sonar.jacoco.reportPaths>${project.build.directory}/coverage-reports/jacoco-ut.exec</sonar.jacoco.reportPaths>
-            </properties>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.sonarsource.scanner.maven</groupId>
-                            <artifactId>sonar-maven-plugin</artifactId>
-                            <version>${sonar-maven-plugin.version}</version>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-
         <profile>
             <id>javadoc</id>
             <build>
@@ -293,9 +283,6 @@
                         <artifactId>jacoco-maven-plugin</artifactId>
                         <version>${jacoco-maven-plugin.version}</version>
                         <executions>
-                            <!-- Prepares the property pointing to the JaCoCo 
-                                runtime agent which is passed as VM argument when Maven the Surefire plugin 
-                                is executed. -->
                             <execution>
                                 <id>pre-unit-test</id>
                                 <phase>compile</phase>
@@ -303,16 +290,10 @@
                                     <goal>prepare-agent</goal>
                                 </goals>
                                 <configuration>
-                                    <!-- Sets the path to the file which 
-                                        contains the execution data. -->
                                     <destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
-                                    <!-- Sets the name of the property containing 
-                                        the settings for JaCoCo runtime agent. -->
                                     <propertyName>surefireArgLine</propertyName>
                                 </configuration>
                             </execution>
-                            <!-- Ensures that the code coverage report for 
-                                unit tests is created after unit tests have been run. -->
                             <execution>
                                 <id>post-unit-test</id>
                                 <phase>test</phase>
@@ -320,19 +301,12 @@
                                     <goal>report</goal>
                                 </goals>
                                 <configuration>
-                                    <!-- Sets the path to the file which 
-                                        contains the execution data. -->
                                     <dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
-                                    <!-- Sets the output directory for the 
-                                        code coverage report. -->
                                     <outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
-                                    <!-- <append>true</append> -->
                                 </configuration>
                             </execution>
                         </executions>
                     </plugin>
-                    <!-- The Surefire Plugin is used during the test phase 
-                        of the build lifecycle to execute the unit tests of an application -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
@@ -352,9 +326,13 @@
                                 <include>**/*UT.java</include>
                                 <include>**/BakeryRobotRunner.java</include>
                             </includes>
-                            <argLine>-Dfile.encoding=UTF-8
-                                ${surefireArgLine}</argLine>
+                            <argLine>-Dfile.encoding=UTF-8 ${surefireArgLine}</argLine>
                         </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonarsource.scanner.maven</groupId>
+                        <artifactId>sonar-maven-plugin</artifactId>
+                        <version>${sonar-maven-plugin.version}</version>
                     </plugin>
                 </plugins>
             </build>
@@ -364,8 +342,6 @@
             <id>robot</id>
             <build>
                 <plugins>
-                    <!-- The Surefire Plugin is used during the test phase 
-                        of the build lifecycle to execute the unit tests of an application -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
