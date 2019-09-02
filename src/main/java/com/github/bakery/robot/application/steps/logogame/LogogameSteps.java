@@ -13,7 +13,13 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.bakery.robot.application.business.logogame.ProhibitedBrands;
+import com.github.bakery.robot.application.model.logogame.Logo;
+import com.github.bakery.robot.application.model.logogame.Logos;
+import com.github.bakery.robot.application.pages.logogame.LogogamePage;
 import com.github.noraui.application.steps.Step;
+import com.github.noraui.cucumber.metrics.annotation.time.Time;
+import com.github.noraui.cucumber.metrics.annotation.time.TimeValue;
 import com.github.noraui.exception.Callbacks;
 import com.github.noraui.exception.FailureException;
 import com.github.noraui.exception.Result;
@@ -22,10 +28,6 @@ import com.github.noraui.utils.Context;
 import com.github.noraui.utils.Messages;
 import com.github.noraui.utils.Utilities;
 import com.google.inject.Inject;
-import com.github.bakery.robot.application.business.logogame.ProhibitedBrands;
-import com.github.bakery.robot.application.model.logogame.Logo;
-import com.github.bakery.robot.application.model.logogame.Logos;
-import com.github.bakery.robot.application.pages.logogame.LogogamePage;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -33,8 +35,6 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.fr.Alors;
 import io.cucumber.java.fr.Et;
 import io.cucumber.java.fr.Lorsque;
-import cucumber.metrics.annotation.time.Time;
-import cucumber.metrics.annotation.time.TimeValue;
 
 public class LogogameSteps extends Step {
 

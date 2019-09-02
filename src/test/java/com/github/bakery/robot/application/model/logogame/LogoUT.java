@@ -28,7 +28,7 @@ public class LogoUT {
         // run test
         Assert.assertEquals("{\"brand\":\"amazon\"}", logo.serialize());
     }
-    
+
     @Test
     public void checkLogoSerializeAllTest() {
         // prepare mock
@@ -48,7 +48,7 @@ public class LogoUT {
         logo.deserialize("{\"brand\":\"amazon\"}");
         Assert.assertEquals("amazon", logo.getBrand());
     }
-    
+
     @Test
     public void checkLogoDeserializeAllTest() {
         // run test
