@@ -31,7 +31,7 @@
         <sonar.jacoco.reportPaths>${sonar.jacoco.directory}/jacoco.exec</sonar.jacoco.reportPaths>
         <sonar.tests>${project.basedir}/src/test/</sonar.tests>
         <sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
-        <sonar.exclusions>**/noraui/model/**/*</sonar.exclusions>
+        <sonar.exclusions>**/noraui/model/**/*,*.css</sonar.exclusions>
         
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <env>dev</env>
