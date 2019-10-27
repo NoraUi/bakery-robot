@@ -4,12 +4,16 @@ dist: trusty
 install: true
 
 addons:
+  apt:
+    packages:
+      - dpkg
   sonarcloud:
     organization: "noraui"
   chrome: stable
 
 jdk:
 - oraclejdk8
+- openjdk8
 
 before_script:
 - chmod +x ci/run.sh
