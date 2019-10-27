@@ -13,11 +13,11 @@ import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 
 import com.github.bakery.robot.utils.BakeryRobotContext;
-
-import io.cucumber.junit.CucumberOptions;
-import io.cucumber.junit.Cucumber;
 import com.github.noraui.exception.TechnicalException;
 import com.github.noraui.utils.Context;
+
+import io.cucumber.core.junit.Cucumber;
+import io.cucumber.core.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(monochrome = true,

@@ -4,7 +4,7 @@ Feature: loginLogout (Scenario that login and logout with any good user.)
 	Scenario Outline:  Scenario that login and logout with any good user.
 
     Given I check that 'user' '<user>' is not empty
-    Given I check that 'user' '<password>' is not empty
+    Given I check that 'password' '<password>' is not empty
 
     Given 'BAKERY_HOME' is opened
     Then The BAKERY home page is displayed

@@ -29,12 +29,12 @@ import com.github.noraui.utils.Messages;
 import com.github.noraui.utils.Utilities;
 import com.google.inject.Inject;
 
-import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.fr.Alors;
-import io.cucumber.java.fr.Et;
-import io.cucumber.java.fr.Lorsque;
+import io.cucumber.core.java.en.And;
+import io.cucumber.core.java.en.Given;
+import io.cucumber.core.java.en.Then;
+import io.cucumber.core.java.fr.Alors;
+import io.cucumber.core.java.fr.Et;
+import io.cucumber.core.java.fr.Lorsque;
 
 public class LogogameSteps extends Step {
 

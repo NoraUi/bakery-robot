@@ -13,9 +13,10 @@ import com.github.noraui.exception.FailureException;
 import com.github.noraui.exception.Result;
 import com.github.noraui.utils.Messages;
 import com.google.inject.Inject;
-import com.github.bakery.robot.application.pages.google.GooglePage;
 
-import io.cucumber.java.en.Then;
+import io.cucumber.core.java.en.Then;
+
+import com.github.bakery.robot.application.pages.google.GooglePage;
 
 public class GoogleSteps extends Step {
 

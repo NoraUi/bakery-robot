@@ -94,6 +94,8 @@ public class BakeryRobotContext extends Context {
         applications.put(LOGOGAME_KEY, new Application(LOGOGAME_HOME, logogameHome));
 
         Page.setPageMainPackage("com.github.bakery.robot.application.pages.");
+
+        statistics.share(statisticsProcessor(clazz.getClassLoader(), "com.github.bakery.robot.application.steps"), "12345678-uuid");
     }
 
     /**

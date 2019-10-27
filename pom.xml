@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.bakery</groupId>
     <artifactId>robot</artifactId>
@@ -16,6 +15,10 @@
         <crypto.key></crypto.key>
         <ciToolResourcesPath>src/test/resources</ciToolResourcesPath>
         <noraui.version>4.0.0-SNAPSHOT</noraui.version>
+        <maven.failsafe.plugin.version>3.0.0-M3</maven.failsafe.plugin.version>
+        <maven.build.helper.plugin.version>3.0.0</maven.build.helper.plugin.version>
+        <generated.runner.directory>${project.build.directory}/parallel/runners</generated.runner.directory>
+        <generated.feature.directory>${project.build.directory}/parallel/features</generated.feature.directory>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <maven-resources-plugin.version>3.0.2</maven-resources-plugin.version>
         <exec-maven-plugin.version>1.6.0</exec-maven-plugin.version>
@@ -46,18 +49,18 @@
             <version>${noraui.version}</version>
             <exclusions>
                 <exclusion>
-			        <groupId>com.oracle.jdbc</groupId>
-			        <artifactId>ojdbc8</artifactId>
-			    </exclusion>
+                    <groupId>com.oracle.jdbc</groupId>
+                    <artifactId>ojdbc8</artifactId>
+                </exclusion>
                 <exclusion>
-			        <groupId>mysql</groupId>
-			        <artifactId>mysql-connector-java</artifactId>
-			    </exclusion>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                </exclusion>
                 <exclusion>
-			        <groupId>org.postgresql</groupId>
-			        <artifactId>postgresql</artifactId>
-			    </exclusion>
-		    </exclusions>
+                    <groupId>org.postgresql</groupId>
+                    <artifactId>postgresql</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
     </dependencies>
@@ -213,18 +216,9 @@
                                 </goals>
                                 <configuration>
                                     <target name="copy">
-                                        <copy
-                                            file="src/test/resources/dev/formatter.js"
-                                            tofile="target/reports/html/formatter.js"
-                                            overwrite="true" />
-                                        <copy
-                                            file="src/test/resources/dev/index.html"
-                                            tofile="target/reports/html/index.html"
-                                            overwrite="true" />
-                                        <copy
-                                            file="src/test/resources/dev/counter.js"
-                                            tofile="target/reports/html/counter.js"
-                                            overwrite="true" />
+                                        <copy file="src/test/resources/dev/formatter.js" tofile="target/reports/html/formatter.js" overwrite="true" />
+                                        <copy file="src/test/resources/dev/index.html" tofile="target/reports/html/index.html" overwrite="true" />
+                                        <copy file="src/test/resources/dev/counter.js" tofile="target/reports/html/counter.js" overwrite="true" />
                                     </target>
                                 </configuration>
                             </execution>
@@ -361,9 +355,148 @@
                                 <cookie>${cookie}</cookie>
                             </systemPropertyVariables>
                             <includes>
-                                <include>**/BakeryRobotRunner.java</include>
+                                <!-- <include>**/BakeryRobotRunner.java</include> -->
                             </includes>
                             <argLine>-Dfile.encoding=UTF-8</argLine>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.trivago.rta</groupId>
+                        <artifactId>cucable-plugin</artifactId>
+                        <version>1.5.2</version>
+                        <executions>
+                            <execution>
+                                <id>generate-test-resources</id>
+                                <phase>generate-test-resources</phase>
+                                <goals>
+                                    <goal>parallel</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <!-- This can be either a Java class file or a text based template -->
+                            <sourceRunnerTemplateFile>src/test/java/some/template/CucableJavaTemplate.java</sourceRunnerTemplateFile>
+                            <!--<sourceRunnerTemplateFile>src/test/resources/cucable.template</sourceRunnerTemplateFile> -->
+
+                            <!-- process all features in the given directory -->
+                            <sourceFeatures>src/test/resources/steps/scenarios</sourceFeatures>
+
+                            <!-- process a specific feature file in the given directory -->
+                            <!--<sourceFeatures>src/test/resources/features/testfeature/MyTest9.feature</sourceFeatures> -->
+
+                            <!-- process multiple feature files -->
+                            <!--<sourceFeatures> -->
+                            <!--src/test/resources/features/testfeature2, -->
+                            <!--src/test/resources/features/testfeature/MyTest8.feature -->
+                            <!--</sourceFeatures> -->
+
+                            <!-- process a specific feature file and specific line numbers in the given directory -->
+                            <!--<sourceFeatures>src/test/resources/features/testfeature/MyTest1.feature:8:19</sourceFeatures> -->
+
+                            <generatedFeatureDirectory>${generated.feature.directory}</generatedFeatureDirectory>
+                            <generatedRunnerDirectory>${generated.runner.directory}</generatedRunnerDirectory>
+
+                            <!-- optional: custom data that is available in Cucable placeholders in a template -->
+                            <!--<customPlaceholders> -->
+                            <!--<comment>This should appear inside the template</comment> -->
+                            <!--</customPlaceholders> -->
+
+                            <!-- optional: Cucumber tag expression to include or exclude scenarios with certain tags (see https://docs.cucumber.io/cucumber/api/#tag-expressions) -->
+                            <!--<includeScenarioTags>@scenario1Tag1</includeScenarioTags> -->
+                            <!--<includeScenarioTags>not @skipMe</includeScenarioTags> -->
+                            <includeScenarioTags>@loginLogout</includeScenarioTags>
+
+                            <!--optional: A comma separated list of strings matching a scenario name, either completely or partially. Please see "name" option in Cucumber command-line options -->
+                            <!--<scenarioNames>Scenario 1, Scenario 2, Mulțumesc</scenarioNames> -->
+
+                            <!-- optional: change parallelization mode of Cucable (default: 'scenarios') -->
+                            <!--<parallelizationMode>scenarios</parallelizationMode> -->
+                            <!--<parallelizationMode>features</parallelizationMode> -->
+
+                            <!-- optional: number of test runs to create runners and features multiple times if set to a number greater than 1 -->
+                            <!-- <numberOfTestRuns>4</numberOfTestRuns> -->
+
+                            <!-- optional: generate a fixed number of runners and distribute all features round-robin. This can only be used if desiredNumberOfFeaturesPerRunner is NOT used! -->
+                            <!--<desiredNumberOfRunners>2</desiredNumberOfRunners> -->
+
+                            <!-- optional: distribute a fixed number features per runner round-robin. This can only be used if desiredNumberOfRunners is NOT used! -->
+                            <!--<desiredNumberOfFeaturesPerRunner>4</desiredNumberOfFeaturesPerRunner> -->
+
+                            <!-- optional: Cucable log level -->
+                            <!--<logLevel>default</logLevel> -->
+                            <!--<logLevel>compact</logLevel> -->
+                            <!--<logLevel>minimal</logLevel> -->
+                            <!--<logLevel>off</logLevel> -->
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>${maven.build.helper.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>add-test-source</id>
+                                <phase>generate-test-sources</phase>
+                                <goals>
+                                    <goal>add-test-source</goal>
+                                </goals>
+                                <configuration>
+                                    <sources>
+                                        <source>${generated.runner.directory}</source>
+                                    </sources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${maven.failsafe.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>Run parallel tests</id>
+                                <phase>integration-test</phase>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <systemPropertyVariables>
+                                <cucumber.options>${cucumber.options}</cucumber.options>
+                                <resourcespath>src/test/resources</resourcespath>
+                                <phantomjs.binary.path>src/test/resources/drivers/%s/phantomjs/%s/phantomjs%s</phantomjs.binary.path>
+                                <webdriver.ie.driver>src/test/resources/drivers/%s/internetexplorer/%s/IEDriverServer%s</webdriver.ie.driver>
+                                <webdriver.chrome.driver>src/test/resources/drivers/%s/googlechrome/%s/chromedriver.exe</webdriver.chrome.driver>
+                                <SpeedRegulator.annotation.enable>false</SpeedRegulator.annotation.enable>
+                                <SpeedRegulators.annotation.enable>false</SpeedRegulators.annotation.enable>
+                                <Time.annotation.enable>false</Time.annotation.enable>
+                                <Times.annotation.enable>false</Times.annotation.enable>
+                                <uid>${uid}</uid>
+                                <password>${password}</password>
+                                <cookie>${cookie}</cookie>
+                            </systemPropertyVariables>
+                            <forkCount>2</forkCount>
+                            <testFailureIgnore>true</testFailureIgnore>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.trivago.rta</groupId>
+                        <artifactId>cluecumber-report-plugin</artifactId>
+                        <version>2.2.0</version>
+                        <executions>
+                            <execution>
+                                <id>report</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>reporting</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <customPageTitle>NoraUi Report</customPageTitle>
+                            <sourceJsonReportDirectory>${project.build.directory}/cucumber-report</sourceJsonReportDirectory>
+                            <generatedHtmlReportDirectory>${project.build.directory}/test-report</generatedHtmlReportDirectory>
                         </configuration>
                     </plugin>
                 </plugins>
