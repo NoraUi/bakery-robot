@@ -13,7 +13,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.bakery.robot.application.business.logogame.ProhibitedBrands;
+import com.github.bakery.robot.application.business.service.ProhibitedBrandsService;
 import com.github.bakery.robot.application.model.logogame.Logo;
 import com.github.bakery.robot.application.model.logogame.Logos;
 import com.github.bakery.robot.application.pages.logogame.LogogamePage;
@@ -29,12 +29,12 @@ import com.github.noraui.utils.Messages;
 import com.github.noraui.utils.Utilities;
 import com.google.inject.Inject;
 
-import io.cucumber.core.java.en.And;
-import io.cucumber.core.java.en.Given;
-import io.cucumber.core.java.en.Then;
-import io.cucumber.core.java.fr.Alors;
-import io.cucumber.core.java.fr.Et;
-import io.cucumber.core.java.fr.Lorsque;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.fr.Alors;
+import io.cucumber.java.fr.Et;
+import io.cucumber.java.fr.Lorsque;
 
 public class LogogameSteps extends Step {
 
@@ -45,6 +45,9 @@ public class LogogameSteps extends Step {
 
     @Inject
     private LogogamePage logoGamePage;
+    
+    @Inject
+    private ProhibitedBrandsService prohibitedBrandsService;
 
     /**
      * Check home page.
@@ -103,11 +106,10 @@ public class LogogameSteps extends Step {
     @Lorsque("Je vérifie que toutes les marques {string} ne sont pas interdites")
     @Given("I check that all brands {string} are not prohibited")
     public void checkThatAllBrandsIsNotProhibited(String jsonLogos) throws TechnicalException, FailureException {
-        ProhibitedBrands prohibitedBrands = new ProhibitedBrands();
         Logos logos = new Logos();
         logos.deserialize(jsonLogos);
         for (int i = 0; i < logos.size(); i++) {
-            if (prohibitedBrands.getAlcool().contains(logos.get(i).getBrand()) || prohibitedBrands.getTabaco().contains(logos.get(i).getBrand())) {
+            if (prohibitedBrandsService.getAlcool().contains(logos.get(i).getBrand()) || prohibitedBrandsService.getTabaco().contains(logos.get(i).getBrand())) {
                 new Result.Failure<>(logos.get(i).getBrand(), Messages.format("Brand « %s » is prohibited.", logos.get(i).getBrand()), false, logos.get(i).getNid(),
                         Context.getCallBack(Callbacks.RESTART_WEB_DRIVER));
             }

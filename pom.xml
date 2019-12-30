@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.bakery</groupId>
-    <artifactId>robot</artifactId>
+    <artifactId>bakery-robot</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>robot</name>
     <description>robot</description>
@@ -14,7 +14,7 @@
         <scenario.name>@TOSPECIFY</scenario.name>
         <crypto.key></crypto.key>
         <ciToolResourcesPath>src/test/resources</ciToolResourcesPath>
-        <noraui.version>4.0.0-SNAPSHOT</noraui.version>
+        <noraui.version>4.1.0-SNAPSHOT</noraui.version>
         <maven.failsafe.plugin.version>3.0.0-M3</maven.failsafe.plugin.version>
         <maven.build.helper.plugin.version>3.0.0</maven.build.helper.plugin.version>
         <generated.runner.directory>${project.build.directory}/parallel/runners</generated.runner.directory>
@@ -375,7 +375,7 @@
                         </executions>
                         <configuration>
                             <!-- This can be either a Java class file or a text based template -->
-                            <sourceRunnerTemplateFile>src/test/java/some/template/CucableJavaTemplate.java</sourceRunnerTemplateFile>
+                            <!--sourceRunnerTemplateFile>src/test/java/some/template/CucableJavaTemplate.java</sourceRunnerTemplateFile-->
                             <!--<sourceRunnerTemplateFile>src/test/resources/cucable.template</sourceRunnerTemplateFile> -->
 
                             <!-- process all features in the given directory -->

@@ -30,10 +30,11 @@ import com.github.noraui.utils.Messages;
 import com.github.noraui.utils.Utilities;
 import com.google.inject.Inject;
 
-import io.cucumber.core.java.en.Then;
-import io.cucumber.core.java.en.When;
-import io.cucumber.core.java.fr.Alors;
-import io.cucumber.core.java.fr.Quand;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import io.cucumber.java.fr.Alors;
+import io.cucumber.java.fr.Quand;
+
 
 public class BakerySteps extends Step {
 
